@@ -249,4 +249,43 @@ INSERT INTO Pago (id_paciente, fecha_pago, monto, medio_pago)
 VALUES (1, '2024-06-01', 120000, 'Transferencia'),
        (2, '2024-06-05', 115000, 'Efectivo');
 
-
+USE geriatrico_sol;
+SELECT 
+DATE_FORMAT(fecha_pago, '%Y-%m') AS mes,
+SUM(monto) AS total_recaudado
+FROM Pago
+GROUP BY mes;
+SELECT 
+    p.nombre,
+    p.apellido,
+    COUNT(v.id_visita) AS cantidad_visitas
+FROM Paciente p
+JOIN Visita v ON p.id_paciente = v.id_paciente
+GROUP BY p.id_paciente
+ORDER BY cantidad_visitas DESC;
+SELECT 
+    p.nombre,
+    p.apellido,
+    COUNT(m.id_medicamento) AS cantidad_medicamentos
+FROM Paciente p
+JOIN Medicamento m ON p.id_paciente = m.id_paciente
+GROUP BY p.id_paciente
+ORDER BY cantidad_medicamentos DESC;
+SELECT 
+    turno,
+    COUNT(id_empleado) AS cantidad_empleados
+FROM Empleado
+GROUP BY turno;
+INSERT INTO Visita (id_paciente, nombre_familiar, fecha_visita)
+VALUES 
+(1, 'Lucía López', '2024-06-10'),
+(1, 'Lucía López', '2024-06-25'),
+(2, 'Carlos Concha', '2024-06-20'),
+(2, 'Carlos Concha', '2024-06-22');
+INSERT INTO Medicamento (nombre, dosis, id_paciente)
+VALUES 
+('Enalapril', '10mg', 1),
+('Metformina', '500mg', 2),
+('Losartán', '50mg', 1),
+('Insulina', '5U', 2),
+('Paracetamol', '500mg', 1);
